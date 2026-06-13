@@ -7,6 +7,24 @@ val isFullBuild: Boolean =
         false
     }
 
+val sentryAuthToken: String? =
+    providers.environmentVariable("SENTRY_AUTH_TOKEN").orNull
+        ?: try {
+            val localPropertiesFile = rootProject.file("local.properties")
+            if (localPropertiesFile.exists()) {
+                val properties = Properties()
+                properties.load(localPropertiesFile.inputStream())
+                properties.getProperty("SENTRY_AUTH_TOKEN")
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            println("Failed to load SENTRY_AUTH_TOKEN: ${e.message}")
+            null
+        }
+
+val hasSentryAuthToken = !sentryAuthToken.isNullOrBlank()
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.sentry.gradle)
@@ -104,17 +122,19 @@ android {
             versionNameSuffix = "-dev"
         }
     }
+
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
-    // enable view binding
+
     buildFeatures {
         viewBinding = true
         compose = true
         buildConfig = true
     }
+
     packaging {
         jniLibs.useLegacyPackaging = true
         jniLibs.excludes +=
@@ -135,16 +155,14 @@ android {
             excludes += "META-INF/versions/9/OSGI-INF/MANIFEST.MF"
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
 }
 
 dependencies {
     coreLibraryDesugaring(libs.desugaring)
+
     val debugImplementation = "debugImplementation"
     debugImplementation(libs.ui.tooling)
+
     implementation(libs.activity.compose)
 
     // Custom Activity On Crash
@@ -155,6 +173,7 @@ dependencies {
 
     // Legacy Support
     implementation(libs.legacy.support.v4)
+
     // Coroutines
     implementation(libs.coroutines.android)
 
@@ -176,24 +195,28 @@ dependencies {
 sentry {
     org.set("simpmusic")
     projectName.set("android")
+
     ignoredFlavors.set(setOf("foss"))
     ignoredBuildTypes.set(setOf("debug"))
+
     autoInstallation.enabled = false
-    if (isFullBuild) {
-        val token =
-            try {
-                println("Full build detected, enabling Sentry Auth Token")
-                val properties = Properties()
-                properties.load(rootProject.file("local.properties").inputStream())
-                properties.getProperty("SENTRY_AUTH_TOKEN")
-            } catch (e: Exception) {
-                println("Failed to load SENTRY_AUTH_TOKEN from local.properties: ${e.message}")
-                null
-            }
-        authToken.set(token ?: "")
+    telemetry.set(false)
+
+    if (hasSentryAuthToken) {
+        println("Sentry auth token found, enabling Sentry ProGuard mapping upload.")
+        authToken.set(sentryAuthToken)
+
         includeProguardMapping.set(true)
         autoUploadProguardMapping.set(true)
+        uploadNativeSymbols.set(true)
+        includeDependenciesReport.set(true)
+        includeSourceContext.set(true)
+        includeNativeSources.set(true)
     } else {
+        println("No Sentry auth token found, disabling Sentry uploads.")
+
+        authToken.set("")
+
         includeProguardMapping.set(false)
         autoUploadProguardMapping.set(false)
         uploadNativeSymbols.set(false)
@@ -201,7 +224,14 @@ sentry {
         includeSourceContext.set(false)
         includeNativeSources.set(false)
     }
-    telemetry.set(false)
+}
+
+// Hard-disable Sentry upload tasks when no token is available.
+// This prevents :androidApp:uploadSentryProguardMappingsRelease from failing with 401.
+tasks.configureEach {
+    if (!hasSentryAuthToken && name.contains("uploadSentry", ignoreCase = true)) {
+        enabled = false
+    }
 }
 
 if (!isFullBuild) {
@@ -224,11 +254,13 @@ if (!isFullBuild) {
 
             val dirName = "release/mergeReleaseAssets"
             val injectDirName = "release/injectSentryDebugMetaPropertiesIntoAssetsRelease"
+
             println("Cleaning Sentry meta files in build directories")
             println("Build directory: ${buildDirectory.asFile.get().absolutePath}")
 
             val buildAssetsDir = File(buildDirectory.asFile.get(), "intermediates/assets/$dirName")
             println("Checking directory buildAssetsDir: ${buildAssetsDir.absolutePath}")
+
             val sentryFile = File(buildAssetsDir, "sentry-debug-meta.properties")
             if (sentryFile.exists()) {
                 sentryFile.delete()
@@ -237,13 +269,15 @@ if (!isFullBuild) {
 
             val injectBuildAssetsDir = File(buildDirectory.asFile.get(), "intermediates/assets/$injectDirName")
             println("Checking directory injectBuildAssetsDir: ${injectBuildAssetsDir.absolutePath}")
+
             val injectSentryFile = File(injectBuildAssetsDir, "sentry-debug-meta.properties")
             if (injectSentryFile.exists()) {
                 injectSentryFile.delete()
                 println("Deleted: ${injectSentryFile.absolutePath}")
-                val sentryFile = File(injectBuildAssetsDir, "sentry-debug-meta.properties")
-                sentryFile.writeText("")
-                println("✓ Overwritten: ${sentryFile.absolutePath}")
+
+                val emptySentryFile = File(injectBuildAssetsDir, "sentry-debug-meta.properties")
+                emptySentryFile.writeText("")
+                println("✓ Overwritten: ${emptySentryFile.absolutePath}")
             }
         }
     }
@@ -256,6 +290,7 @@ if (!isFullBuild) {
                     assetDirectories.from(android.sourceSets.flatMap { it.assets.directories })
                     buildDirectory.set(layout.buildDirectory)
                 }
+
             tasks.named(name).configure {
                 finalizedBy(cleanSentryMetaTask)
             }
