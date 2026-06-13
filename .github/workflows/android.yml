@@ -22,8 +22,11 @@ jobs:
 
       - name: Install Android Build Tools 33.0.0
         run: |
-          yes | sdkmanager --licenses
-          sdkmanager "build-tools;33.0.0"
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "build-tools;33.0.0"
 
       - name: Update build product flavor
         run: |
