@@ -58,7 +58,7 @@
     <string name="this_song_is_not_available">This song is not available</string>
     <string name="in_charts">in Charts</string>
     <string name="playlist_name_cannot_be_empty">Playlist name cannot be empty</string>
-    <string name="this_app_needs_to_access_your_notification">This app needs to access your notification</string>
+    <string name="this_app_needs_to_access_your_notification">Please enable notifications to get updates about new releases from your favorite artists. We never send ads or promotional messages.</string>
     <string name="shared">Shared</string>
     <string name="rich_synced">Word by word</string>
     <string name="line_synced">Line Synced</string>
@@ -120,15 +120,15 @@
     <string name="restore_your_saved_data">Restore your saved data</string>
     <string name="about_us">About us</string>
     <string name="version">Version</string>
-    <string name="github">Github</string>
-    <string name="maxrave_dev">maxrave-dev</string>
+    <string name="github">Instagram</string>
+    <string name="maxrave_dev">rizoel-dev</string>
     <string name="buy_me_a_coffee">Buy me a coffee</string>
-    <string name="developer_blog">Developer Blog</string>
-    <string name="developer_blog_tagline">Read dev notes, tutorials &amp; behind-the-scenes</string>
+    <string name="developer_blog">Website</string>
+    <string name="developer_blog_tagline">Check out my other projects, updates &amp; FOSS releases</string>
     <string name="blog_promo_title">Something new from the dev</string>
-    <string name="blog_promo_message">I just launched my personal blog at maxrave.dev — sharing the story behind SimpMusic, music-tech deep dives, and engineering notes. Give it a read if you're curious ✨</string>
-    <string name="visit_blog">Visit blog</string>
-    <string name="paypal">PayPal</string>
+    <string name="blog_promo_message">I just launched Nebula, a movie & TV shows streaming app at rizoel.in — no ads or paywalls, in-depth streaming-tech features, and a sleek UI. Check it out if you’re curious ✨</string>
+    <string name="visit_blog">Visit Nebula</string>
+    <string name="paypal">Crypto</string>
     <string name="title">Title</string>
     <string name="custom_order">Custom order</string>
     <string name="album">Album</string>
@@ -145,7 +145,7 @@
     <string name="albums_inArtist">Albums</string>
     <string name="singles_inArtist">Singles</string>
     <string name="fans_might_also_like_inArtist">Fans might also like</string>
-    <string name="crash_log">SimpMusic crashed. Sorry for this problem.\nSend crash-log to developer</string>
+    <string name="crash_log">WΛVVY crashed. Sorry for this problem.\nSend crash-log to developer</string>
     <string name="crash">Crash</string>
     <string name="send">Send</string>
     <string name="mail_subject">Report Crash</string>
@@ -160,8 +160,8 @@
     <string name="logged_out">Logged out</string>
     <string name="playlist">Playlist</string>
     <string name="restart_app">Restart app to apply the change</string>
-    <string name="balance_media_loudness">Balance media loudness</string>
-    <string name="normalize_volume">Normalize Volume</string>
+    <string name="balance_media_loudness">Sets the same loudness level for all tracks</string>
+    <string name="normalize_volume">Volume normalisation</string>
     <string name="audio">Audio</string>
     <string name="no_equalizer">Your device doesn't have equalizer</string>
     <string name="open_system_equalizer">Open system equalizer</string>
@@ -205,12 +205,12 @@
     <string name="what_segments_will_be_skipped">What segments will be skipped</string>
     <string name="save">Save</string>
     <string name="saved">Saved</string>
-    <string name="sponsor_block_intro">SponsorBlock is a crowd-sourced system for skipping annoying parts of YouTube videos.\nMore information: https://sponsor.ajay.app/\nIn SimpMusic, SponsorBlock is only available when the device is online</string>
+    <string name="sponsor_block_intro">SponsorBlock is a crowd-sourced system for skipping annoying parts of YouTube videos.\nMore information: https://sponsor.ajay.app/\nIn WΛVVY, SponsorBlock is only available when the device is online</string>
     <string name="skip_sponsor_part_of_video">Skip sponsor part of video</string>
     <string name="customactivityoncrash_error_activity_error_occurred_explanation">An unexpected error occurred. Sorry for the inconvenience.</string>
     <string name="customactivityoncrash_error_activity_restart_app">Restart app</string>
-    <string name="help_build_lyrics_database">Help SimpMusic lyrics build the lyrics database</string>
-    <string name="help_build_lyrics_database_description">Send your saved lyrics to SimpMusic lyrics's database</string>
+    <string name="help_build_lyrics_database">Help WΛVVY build its own lyrics database</string>
+    <string name="help_build_lyrics_database_description">Send your saved lyrics to WΛVVY lyrics's database</string>
     <string name="customactivityoncrash_error_activity_close_app">Close app</string>
     <string name="customactivityoncrash_error_activity_error_details">Error details</string>
     <string name="customactivityoncrash_error_activity_error_details_title">Error details</string>
@@ -228,9 +228,9 @@
     <string name="sleep_timer_set_error">Please set the correct format time</string>
     <string name="sleep_timer_warning">Remove sleep timer?</string>
     <string name="yes">Yes</string>
-    <string name="notification_channel_name" translatable="false">SimpMusic Playback Notification</string>
+    <string name="notification_channel_name" translatable="false">WΛVVY Playback Notification</string>
     <string name="welcome_back">Welcome back,</string>
-    <string name="upload_your_listening_history_to_youtube_music_server_it_will_make_yt_music_recommendation_system_better_working_only_if_logged_in">Upload your listening history to YouTube Music server, it will make YT Music recommendation system better. Working only if logged in</string>
+    <string name="upload_your_listening_history_to_youtube_music_server_it_will_make_yt_music_recommendation_system_better_working_only_if_logged_in">Upload your listening history to YouTube Music server, it will make YT Music recommendations system better. Works only when logged in</string>
     <string name="send_back_listening_data_to_google">Send back listening data to Google</string>
     <string name="videos_inArtist">Videos</string>
     <string name="your_youtube_playlists">Your YouTube Playlists</string>
@@ -247,7 +247,7 @@
     <string name="saved_to_local_playlist">Saved to local playlist</string>
     <string name="if_you_want_to_unsync_this_playlist_please_go_to_local_playlist">if you want to unsync this playlist, please go to local playlist</string>
     <string name="log_in_to_get_YouTube_playlist">Log in to get YouTube Playlist</string>
-    <string name="sync_playlist_warning">SimpMusic will create a YouTube Music Playlist automatically. Are you sure?</string>
+    <string name="sync_playlist_warning">WΛVVY will create a YouTube Music Playlist automatically. Are you sure?</string>
     <string name="syncing">Syncing</string>
     <string name="unsync_playlist_warning">"Unsync this playlist? This playlist will not be removed from YouTube Music "</string>
     <string name="unsyncing">Unsyncing</string>
@@ -264,7 +264,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="please_enter_your_email_and_password">Please enter your email and password</string>
-    <string name="translation_language_message">Type language code (Eg: en) (2 letters). If you want to set same with SimpMusic's language, please make edit box empty.</string>
+    <string name="translation_language_message">Type language code (Eg: en) (2 letters). If you want to set same with WΛVVY's language, please make edit box empty.</string>
     <string name="invalid_language_code">Invalid language code</string>
     <string name="lyrics_provider_youtube">Lyrics provided by YouTube</string>
     <string name="lyrics_provider_betterlyrics">Lyrics provided by BetterLyrics</string>
@@ -283,9 +283,9 @@
     <string name="older_first">Older First</string>
     <string name="newer_first">Newer First</string>
     <string name="added_date">Added date</string>
-    <string name="credit_app">A simple music app using YouTube Music for backend \n\nSimpMusic is an open source project to stream music from YouTube and YouTube Music without ads and tracking. SimpMusic provides many features:\n\n - Streaming music \n - Synced lyrics\n - Personalize data\n - etc… \n\nSimpMusic is always free and no ads\n\nBuild with ❤️ from Tuan Minh Nguyen Duc (maxrave-dev)</string>
+    <string name="credit_app">A clean, minimal music app using YT Music for backend \n\nWΛVVY is an individual project designed to stream music from YouTube and YouTube Music without ads and tracking. WΛVVY provides many features:\n\n - Streaming music \n - Synced lyrics\n - Personalized data\n - And more… \n\nWΛVVY is always free and no ads\n\nBuilt with ❤️ by rizoel-dev 🇮🇳</string>
     <string name="issue_tracker">Issue Tracker</string>
-    <string name="copyright" translatable="false">©2023-2025 Tuan Minh Nguyen Duc (maxrave-dev)</string>
+    <string name="copyright" translatable="false">©2026 rizoel-dev</string>
     <string name="featured_playlists">Featured Playlists</string>
     <string name="podcasts" translatable="false">Podcasts</string>
     <string name="featured_inArtist">Featured on</string>
@@ -325,7 +325,7 @@
     <string name="enable_spotify_lyrics">Enable Spotify Lyrics</string>
     <string name="spotify_lyrícs_info">More lyrics without translation</string>
     <string name="enable_canvas">Enable Canvas</string>
-    <string name="canvas_info">Show Spotify Canvas in SimpMusic</string>
+    <string name="canvas_info">Show Spotify Canvas in WΛVVY</string>
     <string name="spotify_lyrics_provider">Lyrics provided by Spotify</string>
     <string name="offline_mode">Offline mode</string>
     <string name="added_to_youtube_liked">Added to YouTube Liked</string>
@@ -354,9 +354,9 @@
     <string name="repeat_off">Repeat Off</string>
     <string name="youtube_transcript">YouTube Transcript</string>
     <string name="user_interface">Interface</string>
-    <string name="translucent_bottom_navigation_bar">Translucent bottom navigation bar</string>
+    <string name="translucent_bottom_navigation_bar">Translucent bottom navbar</string>
     <string name="you_can_see_the_content_below_the_bottom_bar">You can see the content below the bottom bar</string>
-    <string name="donation">If you love my work, give me a coffee</string>
+    <string name="donation">If you love my work, buy me a coffee</string>
     <string name="relax">Relax</string>
     <string name="sleep">Sleep</string>
     <string name="energize">Energize</string>
@@ -374,7 +374,7 @@
     <string name="loading">Loading</string>
     <string name="updating">Updating</string>
     <string name="go_to_log_in_page">Go to log in page</string>
-    <string name="log_in_warning">YouTube Music now requires you to log in to stream music, Piped Instance sometime can't work too. You should log in to YouTube to get better experience with SimpMusic.</string>
+    <string name="log_in_warning">YT Music now requires you to log in to stream music, Piped Instance sometime can't work too. You should log in to YouTube to get better experience with WΛVVY Music.</string>
     <string name="spotify_canvas_cache">Spotify Canvas Cache</string>
     <string name="clear_canvas_cache">Clear canvas cache</string>
     <string name="proxy">Proxy</string>
@@ -419,9 +419,9 @@
     <string name="shuffle">Shuffle</string>
     <string name="other_version">Other version</string>
     <string name="later">Later</string>
-    <string name="give_a_star">Give a star</string>
-    <string name="enjoying_simpmusic">Enjoying SimpMusic</string>
-    <string name="if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on">If you enjoy using SimpMusic, star SimpMusic on GitHub or leave a review on</string>
+    <string name="give_a_star">Feedback</string>
+    <string name="enjoying_simpmusic">Enjoying WΛVVY</string>
+    <string name="if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on">If you enjoy using WΛVVY, give me a feedback on Instagram or leave a review on</string>
     <string name="if_you_love_my_work_consider">"If you love my work, consider "</string>
     <string name="buying_me_a_coffee">buying me a coffee.</string>
     <string name="fade_audio_effect">Fade audio effect</string>
@@ -466,22 +466,22 @@
     <string name="set_crossfade_duration">Set crossfade duration in seconds (%1$ds)</string>
     <string name="crossfade_auto">Auto</string>
     <string name="crossfade_auto_description">Automatically calculate duration based on BPM (requires 320kbps stream with BPM data)</string>
-    <string name="crossfade_dj_mode">DJ-Style Transition</string>
-    <string name="crossfade_dj_mode_description">Apply low-pass and high-pass filter sweeps during crossfade for a smoother, DJ-like transition (similar to Apple Music Automix).</string>
+    <string name="crossfade_dj_mode">Radio-like Transition</string>
+    <string name="crossfade_dj_mode_description">Apply low-pass and high-pass filter sweeps during crossfade for a smoother, loseless, radio-like transition (similar to Spotify Crossfade or Apple Music Automix).</string>
     <string name="youtube_subtitle_language">YouTube Subtitle Translation Language</string>
     <string name="youtube_subtitle_language_message">Type language code (Eg: en) (2 letters). This is the preferred translation language for YouTube subtitles.</string>
     <string name="use_anonymous">Use anonymous name to contribute</string>
     <string name="contributor_name">Contributor name</string>
     <string name="contributor_email">Contributor email</string>
     <string name="anonymous">Anonymous</string>
-    <string name="simpmusic_lyrics">SimpMusic Lyrics</string>
-    <string name="lyrics_provider_simpmusic">Lyrics provided by SimpMusic Lyrics</string>
+    <string name="simpmusic_lyrics">WΛVVY Lyrics</string>
+    <string name="lyrics_provider_simpmusic">Lyrics provided by WΛVVY Lyrics</string>
     <string name="backup_in_progress">Backup in progress</string>
     <string name="restore_in_progress">Restore in progress</string>
     <string name="backup_downloaded">Backup downloaded data</string>
     <string name="backup_downloaded_description">Backup all downloaded songs's data</string>
     <string name="auto_backup">Auto backup</string>
-    <string name="auto_backup_description">Automatically backup your data to Downloads/SimpMusic folder</string>
+    <string name="auto_backup_description">Automatically backup your data to Downloads/WavvyMusic folder</string>
     <string name="backup_frequency">Backup frequency</string>
     <string name="daily">Daily</string>
     <string name="weekly">Weekly</string>
@@ -506,7 +506,7 @@
     <string name="no_mixes_found">No mixes found</string>
     <string name="no_charts_found">No charts found</string>
     <string name="desktop_webview_description">Because of the limitations of Compose Multiplatform, I can not implement WebView on desktop.\nRead this to learn more how to log in in desktop:\n</string>
-    <string name="open_blog_post">Open blog post</string>
+    <string name="open_blog_post">Visit dev web</string>
     <string name="discord_integration">Discord integration</string>
     <string name="log_in_to_discord">Log in to Discord</string>
     <string name="intro_login_to_discord">Log in to enable Discord Rich Presence</string>
@@ -541,13 +541,13 @@
     <string name="downvote">Downvote</string>
     <string name="vote_submitted">Thank you for voting this lyrics!</string>
     <string name="vote_error">Failed to submit</string>
-    <string name="open_app">Open SimpMusic</string>
+    <string name="open_app">Open WΛVVY</string>
     <string name="close_miniplayer">Close Mini-player</string>
     <string name="open_miniplayer">Open Mini-player</string>
     <string name="quit_app">Quit app</string>
     <string name="local_tracking_title">Local tracking listening history</string>
     <string name="local_tracking_description">Log your listening history to local database</string>
-    <string name="simpmusic_charts">SimpMusic Charts</string>
+    <string name="simpmusic_charts">WΛVVY Charts</string>
     <string name="crossfading">Crossfading</string>
     <string name="your_320kbps_url">Your 320kbps URL</string>
     <string name="your_320kbps_url_description">Leave empty to auto-choose a working URL from the uptime checker.</string>
