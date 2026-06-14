@@ -73,12 +73,12 @@ fun ReviewDialog(
                     append(stringResource(Res.string.if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on))
                     withLink(
                         LinkAnnotation.Url(
-                            "https://www.rizoel.in",
+                            "https://instagram.com/7stoical",
                             TextLinkStyles(style = SpanStyle(textDecoration = TextDecoration.Underline, color = seed)),
                         ) {
                             onDoneReview.invoke()
                             onDismissRequest.invoke()
-                            uriHandler.openUri("https://www.rizoel.in")
+                            uriHandler.openUri("https://instagram.com/7stoical")
                         },
                     ) {
                         append(" ProductHunt")
