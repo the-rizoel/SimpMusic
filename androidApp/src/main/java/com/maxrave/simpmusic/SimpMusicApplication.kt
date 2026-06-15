@@ -15,6 +15,7 @@ import coil3.disk.DiskCache
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import coil3.request.CachePolicy
 import coil3.request.crossfade
+import com.rizoel.wavvymusic.R
 import com.maxrave.data.di.loader.loadAllModules
 import com.maxrave.domain.manager.DataStoreManager
 import com.maxrave.logger.Logger
