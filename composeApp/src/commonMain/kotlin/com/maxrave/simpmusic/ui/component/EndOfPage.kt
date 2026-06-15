@@ -18,6 +18,7 @@ import org.jetbrains.compose.resources.stringResource
 import simpmusic.composeapp.generated.resources.Res
 import simpmusic.composeapp.generated.resources.app_name
 import simpmusic.composeapp.generated.resources.version_format
+import simpmusic.composeapp.generated.resources.maxrave_dev
 
 @Composable
 fun EndOfPage(withoutCredit: Boolean = false) {
