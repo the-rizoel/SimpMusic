@@ -19,7 +19,7 @@ import coil3.request.SuccessResult
 import coil3.request.allowHardware
 import coil3.toBitmap
 import com.maxrave.simpmusic.MainActivity
-import com.maxrave.simpmusic.R
+import com.rizoel.wavvymusic.R
 import com.maxrave.simpmusic.utils.ComposeResUtils
 import kotlinx.coroutines.runBlocking
 
