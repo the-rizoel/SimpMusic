@@ -41,7 +41,7 @@
     </queries>
 
     <application
-        android:name=".SimpMusicApplication"
+        android:name="com.maxrave.simpmusic.SimpMusicApplication"
         android:allowBackup="true"
         android:appCategory="audio"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -57,7 +57,7 @@
         tools:targetApi="tiramisu">
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.maxrave.simpmusic.MainActivity"
             android:configChanges="keyboardHidden|screenSize|screenLayout|smallestScreenSize"
             android:exported="true"
             android:supportsPictureInPicture="true"
@@ -235,7 +235,7 @@
             android:name="io.sentry.auto-init"
             android:value="false" />
 
-        <receiver android:name=".ui.widget.AppWidgetReceiver"
+        <receiver android:name="com.maxrave.simpmusic.ui.widget.AppWidgetReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
