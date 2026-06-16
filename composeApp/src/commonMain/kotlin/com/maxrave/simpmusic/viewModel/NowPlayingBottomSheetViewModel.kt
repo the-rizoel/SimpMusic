@@ -358,7 +358,7 @@ class NowPlayingBottomSheetViewModel(
                 }
 
                 is NowPlayingBottomSheetUIEvent.Share -> {
-                    val url = "https://simpmusic.org/app/watch?v=${songUIState.videoId}"
+                    val url = "https://wavvy.rizoel.in/app/watch?v=${songUIState.videoId}"
                     shareUrl(
                         title = getString(Res.string.share_url),
                         url,
