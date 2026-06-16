@@ -1,9 +1,5 @@
 package com.maxrave.simpmusic.ui.screen.home
 
-import androidx.compose.runtime.derivedStateOf
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.fadeIn
@@ -2018,7 +2014,7 @@ fun SettingScreen(
                     title = stringResource(Res.string.author),
                     subtitle = stringResource(Res.string.maxrave_dev),
                     onClick = {
-                        uriHandler.openUri("https://wavvy.rizoel.in")
+                        uriHandler.openUri("https://instagram.com/7stoical")
                     },
                 )
                 SettingItem(
@@ -2032,9 +2028,10 @@ fun SettingScreen(
                     title = stringResource(Res.string.buy_me_a_coffee),
                     subtitle = stringResource(Res.string.donation),
                     onClick = {
-                        uriHandler.openUri("https://instagram.com/7stoical")
+                        uriHandler.openUri("https://support.rizoel.in")
                     },
                 )
+                /*
                 SettingItem(
                     title = stringResource(Res.string.third_party_libraries),
                     subtitle = stringResource(Res.string.description_and_licenses),
@@ -2042,6 +2039,7 @@ fun SettingScreen(
                         showThirdPartyLibraries = true
                     },
                 )
+                */
             }
         }
         item(key = "end") {
