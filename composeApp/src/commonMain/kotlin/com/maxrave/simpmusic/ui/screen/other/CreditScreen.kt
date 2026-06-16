@@ -173,7 +173,7 @@ fun CreditScreen(
             // Issue tracker button
             TextButton(
                 onClick = {
-                    openUrl("https://wavvy.rizoel.in")
+                    openUrl("https://wavvy.rizoel.in/issues")
                 },
                 modifier =
                     Modifier
@@ -187,7 +187,7 @@ fun CreditScreen(
             // Buy me a coffee button
             TextButton(
                 onClick = {
-                    openUrl("https://wavvy.rizoel.in")
+                    openUrl("https://support.rizoel.in")
                 },
                 modifier =
                     Modifier
