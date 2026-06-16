@@ -130,35 +130,15 @@ class MainActivity : AppCompatActivity() {
         Logger.d("Italy", "Key: ${Locale.ITALY.toLanguageTag()}")
 
         // Check if the migration has already been done or not
+        // WΛVVY defaults to English + United States content for new installs.
         if (getString(FIRST_TIME_MIGRATION) != STATUS_DONE) {
-            Logger.d("Locale Key", "onCreate: ${Locale.getDefault().toLanguageTag()}")
-            if (SUPPORTED_LANGUAGE.codes.contains(Locale.getDefault().toLanguageTag())) {
-                Logger.d(
-                    "Contains",
-                    "onCreate: ${
-                        SUPPORTED_LANGUAGE.codes.contains(
-                            Locale.getDefault().toLanguageTag(),
-                        )
-                    }",
-                )
-                putString(SELECTED_LANGUAGE, Locale.getDefault().toLanguageTag())
-                if (SUPPORTED_LOCATION.items.contains(Locale.getDefault().country)) {
-                    putString("location", Locale.getDefault().country)
-                } else {
-                    putString("location", "US")
-                }
-            } else {
-                putString(SELECTED_LANGUAGE, "en-US")
-            }
-            // Fetch the selected language from wherever it was stored. In this case its SharedPref
-            getString(SELECTED_LANGUAGE)?.let {
-                Logger.d("Locale Key", "getString: $it")
-                // Set this locale using the AndroidX library that will handle the storage itself
-                val localeList = LocaleListCompat.forLanguageTags(it)
-                AppCompatDelegate.setApplicationLocales(localeList)
-                // Set the migration flag to ensure that this is executed only once
-                putString(FIRST_TIME_MIGRATION, STATUS_DONE)
-            }
+            putString(SELECTED_LANGUAGE, "en-US")
+            putString("location", "US")
+
+            val localeList = LocaleListCompat.forLanguageTags("en-US")
+            AppCompatDelegate.setApplicationLocales(localeList)
+
+            putString(FIRST_TIME_MIGRATION, STATUS_DONE)
         }
         if (AppCompatDelegate.getApplicationLocales().toLanguageTags() !=
             getString(
