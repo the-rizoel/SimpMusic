@@ -563,7 +563,7 @@ fun SearchScreen(
                                     Modifier
                                         .padding(top = 10.dp),
                             ) {
-                                uriHandler.openUri("https://chart.simpmusic.org")
+                                // WΛVVY Chart is not available yet.
                             }
                         }
                     }
