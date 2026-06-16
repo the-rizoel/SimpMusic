@@ -245,7 +245,7 @@ internal inline fun <reified T> GridLibraryPlaylist(
                                     vertical = 16.dp,
                                 ),
                             onClick = {
-                                uriHandler.openUri("https://chart.simpmusic.org")
+                                // WΛVVY Chart is not available yet.
                             },
                         )
                     }
