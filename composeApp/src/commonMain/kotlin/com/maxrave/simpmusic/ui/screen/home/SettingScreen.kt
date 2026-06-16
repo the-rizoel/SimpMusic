@@ -172,6 +172,12 @@ import simpmusic.composeapp.generated.resources.audio
 import simpmusic.composeapp.generated.resources.author
 import simpmusic.composeapp.generated.resources.auto_backup
 import simpmusic.composeapp.generated.resources.auto_backup_description
+import simpmusic.composeapp.generated.resources.auto_check_for_update
+import simpmusic.composeapp.generated.resources.auto_check_for_update_description
+import simpmusic.composeapp.generated.resources.check_for_update
+import simpmusic.composeapp.generated.resources.checking
+import simpmusic.composeapp.generated.resources.last_checked_at
+import simpmusic.composeapp.generated.resources.update_channel
 import simpmusic.composeapp.generated.resources.backup
 import simpmusic.composeapp.generated.resources.backup_downloaded
 import simpmusic.composeapp.generated.resources.backup_downloaded_description
@@ -445,6 +451,10 @@ fun SettingScreen(
     val autoBackupFrequency by viewModel.autoBackupFrequency.collectAsStateWithLifecycle()
     val autoBackupMaxFiles by viewModel.autoBackupMaxFiles.collectAsStateWithLifecycle()
     val autoBackupLastTime by viewModel.autoBackupLastTime.collectAsStateWithLifecycle()
+    val lastCheckUpdate by viewModel.lastCheckForUpdate.collectAsStateWithLifecycle()
+    val autoCheckUpdate by viewModel.autoCheckUpdate.collectAsStateWithLifecycle()
+    val updateChannel by viewModel.updateChannel.collectAsStateWithLifecycle()
+    val isCheckingUpdate by sharedViewModel.isCheckingUpdate.collectAsStateWithLifecycle()
     val enableLiquidGlass by viewModel.enableLiquidGlass.collectAsStateWithLifecycle()
     val discordLoggedIn by viewModel.discordLoggedIn.collectAsStateWithLifecycle()
     val richPresenceEnabled by viewModel.richPresenceEnabled.collectAsStateWithLifecycle()
@@ -454,6 +464,25 @@ fun SettingScreen(
     val crossfadeDuration by viewModel.crossfadeDuration.collectAsStateWithLifecycle()
     val crossfadeDjMode by viewModel.crossfadeDjMode.collectAsStateWithLifecycle()
 
+
+    val checkForUpdateSubtitle by remember {
+        derivedStateOf {
+            if (isCheckingUpdate) {
+                return@derivedStateOf runBlocking { getString(Res.string.checking) }
+            } else {
+                val lastCheckLong = lastCheckUpdate?.toLong() ?: 0L
+                return@derivedStateOf runBlocking {
+                    getString(
+                        Res.string.last_checked_at,
+                        DateTimeFormatter
+                            .ofPattern("yyyy-MM-dd HH:mm:ss")
+                            .withZone(ZoneId.systemDefault())
+                            .format(Instant.ofEpochMilli(lastCheckLong)),
+                    )
+                }
+            }
+        }
+    }
 
     val hazeState =
         rememberHazeState(
@@ -1982,6 +2011,50 @@ fun SettingScreen(
                     subtitle = stringResource(Res.string.version_format, VersionManager.getVersionName()),
                     onClick = {
                         navController.navigate(CreditDestination)
+                    },
+                )
+                SettingItem(
+                    title = stringResource(Res.string.auto_check_for_update),
+                    subtitle = stringResource(Res.string.auto_check_for_update_description),
+                    switch = (autoCheckUpdate to { viewModel.setAutoCheckUpdate(it) }),
+                )
+                SettingItem(
+                    title = stringResource(Res.string.update_channel),
+                    subtitle =
+                        when (updateChannel) {
+                            DataStoreManager.GITHUB -> "GitHub Releases"
+                            else -> "GitHub Releases"
+                        },
+                    onClick = {
+                        viewModel.setAlertData(
+                            SettingAlertState(
+                                title = runBlocking { getString(Res.string.update_channel) },
+                                selectOne =
+                                    SettingAlertState.SelectData(
+                                        listSelect =
+                                            listOf(
+                                                (updateChannel == DataStoreManager.GITHUB) to "GitHub Releases",
+                                            ),
+                                    ),
+                                confirm =
+                                    runBlocking { getString(Res.string.change) } to { state ->
+                                        viewModel.setUpdateChannel(
+                                            when (state.selectOne?.getSelected()) {
+                                                "GitHub Releases" -> DataStoreManager.GITHUB
+                                                else -> DataStoreManager.GITHUB
+                                            },
+                                        )
+                                    },
+                                dismiss = runBlocking { getString(Res.string.cancel) },
+                            ),
+                        )
+                    },
+                )
+                SettingItem(
+                    title = stringResource(Res.string.check_for_update),
+                    subtitle = checkForUpdateSubtitle,
+                    onClick = {
+                        sharedViewModel.checkForUpdate()
                     },
                 )
                 SettingItem(
