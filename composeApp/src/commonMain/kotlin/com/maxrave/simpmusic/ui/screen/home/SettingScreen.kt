@@ -537,39 +537,9 @@ fun SettingScreen(
                 )
                 SettingItem(
                     title = stringResource(Res.string.language),
-                    subtitle = SUPPORTED_LANGUAGE.getLanguageFromCode(language ?: "en-US"),
-                    onClick = {
-                        viewModel.setAlertData(
-                            SettingAlertState(
-                                title = runBlocking { getString(Res.string.language) },
-                                selectOne =
-                                    SettingAlertState.SelectData(
-                                        listSelect =
-                                            SUPPORTED_LANGUAGE.items.map {
-                                                (it.toString() == SUPPORTED_LANGUAGE.getLanguageFromCode(language ?: "en-US")) to it.toString()
-                                            },
-                                    ),
-                                confirm =
-                                    runBlocking { getString(Res.string.change) } to { state ->
-                                        val code = SUPPORTED_LANGUAGE.getCodeFromLanguage(state.selectOne?.getSelected() ?: "English")
-                                        viewModel.setBasicAlertData(
-                                            SettingBasicAlertState(
-                                                title = runBlocking { getString(Res.string.warning) },
-                                                message = runBlocking { getString(Res.string.change_language_warning) },
-                                                confirm =
-                                                    runBlocking { getString(Res.string.change) } to {
-                                                        sharedViewModel.activityRecreate()
-                                                        viewModel.setBasicAlertData(null)
-                                                        viewModel.changeLanguage(code)
-                                                    },
-                                                dismiss = runBlocking { getString(Res.string.cancel) },
-                                            ),
-                                        )
-                                    },
-                                dismiss = runBlocking { getString(Res.string.cancel) },
-                            ),
-                        )
-                    },
+                    subtitle = "English",
+                    smallSubtitle = true,
+                    isEnable = false,
                 )
                 SettingItem(
                     title = stringResource(Res.string.content_country),
