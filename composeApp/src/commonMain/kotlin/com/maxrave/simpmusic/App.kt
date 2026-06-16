@@ -172,23 +172,23 @@ fun App(viewModel: SharedViewModel = koinInject()) {
                 navController.navigate(
                     NotificationDestination,
                 )
-            } else if (data.host == "simpmusic.org" || data.scheme == "simpmusic") {
-                // https://simpmusic.org/app/watch?v=VIDEO_ID
-                // https://simpmusic.org/app/playlist?list=PLAYLIST_ID
-                // https://simpmusic.org/app/channel/CHANNEL_ID
+            } else if (data.host == "wavvy.rizoel.in" || data.scheme == "wavvymusic") {
+                // https://wavvy.rizoel.in/app/watch?v=VIDEO_ID
+                // https://wavvy.rizoel.in/app/playlist?list=PLAYLIST_ID
+                // https://wavvy.rizoel.in/app/channel/CHANNEL_ID
                 // simpmusic://watch?v=VIDEO_ID  (host="watch", no path)
                 // simpmusic://playlist?list=PLAYLIST_ID
                 // simpmusic://channel/CHANNEL_ID
                 val segments = data.pathSegments
-                // For simpmusic.org: segments = ["app", "watch"] → appPath = segments[1]
+                // For wavvy.rizoel.in: segments = ["app", "watch"] → appPath = segments[1]
                 // For simpmusic://: host IS the appPath (e.g. host="watch"), segments = []
                 val appPath =
-                    if (data.scheme == "simpmusic") {
+                    if (data.scheme == "wavvymusic") {
                         data.host
                     } else {
                         segments.getOrNull(1)
                     }
-                Logger.d("MainActivity", "simpmusic.org deep link, appPath: $appPath")
+                Logger.d("MainActivity", "wavvy.rizoel.in deep link, appPath: $appPath")
                 viewModel.setIntent(null)
                 when (appPath) {
                     "watch" -> {
@@ -211,9 +211,9 @@ fun App(viewModel: SharedViewModel = koinInject()) {
 
                     "channel", "c" -> {
                         // simpmusic://channel/UCxxx → segments = ["UCxxx"]
-                        // simpmusic.org/app/channel/UCxxx → segments = ["app", "channel", "UCxxx"]
+                        // wavvy.rizoel.in/app/channel/UCxxx → segments = ["app", "channel", "UCxxx"]
                         val artistId =
-                            if (data.scheme == "simpmusic") {
+                            if (data.scheme == "wavvymusic") {
                                 segments.firstOrNull()
                             } else {
                                 segments.getOrNull(2)

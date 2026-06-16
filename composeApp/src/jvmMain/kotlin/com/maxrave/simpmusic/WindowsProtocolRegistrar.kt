@@ -19,7 +19,7 @@ import com.maxrave.logger.Logger
  */
 object WindowsProtocolRegistrar {
     private const val TAG = "WindowsProtocolRegistrar"
-    private const val SCHEME = "simpmusic"
+    private const val SCHEME = "wavvymusic"
     private const val REG_KEY = "HKCU\\Software\\Classes\\$SCHEME"
 
     fun register() {
