@@ -40,7 +40,7 @@ fun ReviewDialog(
         confirmButton = {
             TextButton(onClick = {
                 onDoneReview.invoke()
-                uriHandler.openUri("https://wavvy.rizoel.in")
+                uriHandler.openUri("https://wavvy.rizoel.in/feedback")
             }) {
                 Text(
                     stringResource(Res.string.give_a_star),
@@ -73,12 +73,12 @@ fun ReviewDialog(
                     append(stringResource(Res.string.if_you_enjoy_using_simpmusic_star_simpmusic_on_github_or_leave_a_review_on))
                     withLink(
                         LinkAnnotation.Url(
-                            "https://instagram.com/7stoical",
+                            "https://www.producthunt.com/products/wavvymusic",
                             TextLinkStyles(style = SpanStyle(textDecoration = TextDecoration.Underline, color = seed)),
                         ) {
                             onDoneReview.invoke()
                             onDismissRequest.invoke()
-                            uriHandler.openUri("https://instagram.com/7stoical")
+                            uriHandler.openUri("https://www.producthunt.com/products/wavvymusic")
                         },
                     ) {
                         append(" ProductHunt")
@@ -87,12 +87,12 @@ fun ReviewDialog(
                     append(stringResource(Res.string.if_you_love_my_work_consider))
                     withLink(
                         LinkAnnotation.Url(
-                            "https://buymeacoffee.com/rizoel",
+                            "https://support.rizoel.in",
                             TextLinkStyles(style = SpanStyle(textDecoration = TextDecoration.Underline, color = seed)),
                         ) {
                             onDoneReview.invoke()
                             onDismissRequest.invoke()
-                            uriHandler.openUri("https://buymeacoffee.com/rizoel")
+                            uriHandler.openUri("https://support.rizoel.in")
                         },
                     ) {
                         append(stringResource(Res.string.buying_me_a_coffee))
