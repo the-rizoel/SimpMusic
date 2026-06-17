@@ -146,6 +146,7 @@ import dev.chrisbanes.haze.rememberHazeState
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.http.Url
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -271,6 +272,9 @@ fun HomeScreen(
     var showReviewDialog by rememberSaveable {
         mutableStateOf(false)
     }
+    var hasAutoRetriedHome by rememberSaveable {
+        mutableStateOf(false)
+    }
     var showRequestShareLyricsPermissions by rememberSaveable {
         mutableStateOf(false)
     }
@@ -326,7 +330,15 @@ fun HomeScreen(
     }
     LaunchedEffect(key1 = homeData) {
         accountShow = homeData.find { it.subtitle == accountInfo?.first } == null
+
+        if (homeData.isNotEmpty()) {
+            hasAutoRetriedHome = false
+        }
     }
+    LaunchedEffect(key1 = params) {
+        hasAutoRetriedHome = false
+    }
+
     LaunchedEffect(openAppTime, shareLyricsPermissions) {
         Logger.w("HomeScreen", "openAppTime: $openAppTime, shareLyricsPermissions: $shareLyricsPermissions")
         if (openAppTime >= 10 && openAppTime % 10 == 0 && openAppTime <= 50) {
@@ -504,8 +516,28 @@ fun HomeScreen(
             Crossfade(targetState = loading, label = "Home Shimmer") { loading ->
                 if (!loading) {
                     if (homeData.isEmpty()) {
+                        if (!hasAutoRetriedHome) {
+                            hasAutoRetriedHome = true
+
+                            LaunchedEffect(Unit) {
+                                delay(900)
+                                onRefresh.invoke()
+                            }
+
+                            CenterLoadingBox(
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .height(400.dp),
+                            )
+                            return@Crossfade
+                        }
+
                         OfflineErrorState(
-                            onRetry = onRefresh,
+                            onRetry = {
+                                hasAutoRetriedHome = false
+                                onRefresh.invoke()
+                            },
                             onOpenDownloaded = {
                                 navController.navigate(
                                     LibraryDynamicPlaylistDestination(
