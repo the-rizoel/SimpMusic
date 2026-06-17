@@ -524,7 +524,12 @@ fun HomeScreen(
                                 onRefresh.invoke()
                             }
 
-                            CenterLoadingBox()
+                            CenterLoadingBox(
+                                modifier =
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .height(400.dp),
+                            )
                             return@Crossfade
                         }
 
