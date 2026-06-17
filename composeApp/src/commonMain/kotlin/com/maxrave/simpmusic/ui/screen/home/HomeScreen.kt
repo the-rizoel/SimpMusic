@@ -191,6 +191,11 @@ import simpmusic.composeapp.generated.resources.workout
 // DataStore key for blog-promo one-shot dialog. Bump the suffix (v2, v3, …) to re-promote.
 private const val BLOG_PROMO_KEY = "blog_promo_v1_seen"
 
+// Home feed can briefly fail when the app resumes from background or network wakes up late.
+// Retry quietly before showing the offline screen so the UI does not panic over one bad request.
+private const val HOME_AUTO_RETRY_MAX_COUNT = 3
+private val HOME_AUTO_RETRY_DELAYS_MS = listOf(900L, 1_800L, 3_200L)
+
 private val listOfHomeChip =
     listOf(
         Res.string.all,
@@ -272,7 +277,10 @@ fun HomeScreen(
     var showReviewDialog by rememberSaveable {
         mutableStateOf(false)
     }
-    var hasAutoRetriedHome by rememberSaveable {
+    var homeAutoRetryCount by rememberSaveable {
+        mutableIntStateOf(0)
+    }
+    var isHomeAutoRetrying by rememberSaveable {
         mutableStateOf(false)
     }
     var showRequestShareLyricsPermissions by rememberSaveable {
@@ -332,11 +340,36 @@ fun HomeScreen(
         accountShow = homeData.find { it.subtitle == accountInfo?.first } == null
 
         if (homeData.isNotEmpty()) {
-            hasAutoRetriedHome = false
+            homeAutoRetryCount = 0
+            isHomeAutoRetrying = false
         }
     }
     LaunchedEffect(key1 = params) {
-        hasAutoRetriedHome = false
+        homeAutoRetryCount = 0
+        isHomeAutoRetrying = false
+    }
+
+    LaunchedEffect(loading, homeData.size, params) {
+        if (!loading &&
+            homeData.isEmpty() &&
+            !isHomeAutoRetrying &&
+            homeAutoRetryCount < HOME_AUTO_RETRY_MAX_COUNT
+        ) {
+            val nextAttempt = homeAutoRetryCount + 1
+            val delayMs = HOME_AUTO_RETRY_DELAYS_MS.getOrElse(homeAutoRetryCount) { HOME_AUTO_RETRY_DELAYS_MS.last() }
+
+            Logger.w(
+                "HomeScreen",
+                "Home data empty. Auto retry $nextAttempt/$HOME_AUTO_RETRY_MAX_COUNT in ${delayMs}ms",
+            )
+
+            isHomeAutoRetrying = true
+            delay(delayMs)
+            homeAutoRetryCount = nextAttempt
+            isRefreshing = true
+            viewModel.getHomeItemList(params)
+            isHomeAutoRetrying = false
+        }
     }
 
     LaunchedEffect(openAppTime, shareLyricsPermissions) {
@@ -516,14 +549,7 @@ fun HomeScreen(
             Crossfade(targetState = loading, label = "Home Shimmer") { loading ->
                 if (!loading) {
                     if (homeData.isEmpty()) {
-                        if (!hasAutoRetriedHome) {
-                            hasAutoRetriedHome = true
-
-                            LaunchedEffect(Unit) {
-                                delay(900)
-                                onRefresh.invoke()
-                            }
-
+                        if (isHomeAutoRetrying || homeAutoRetryCount < HOME_AUTO_RETRY_MAX_COUNT) {
                             CenterLoadingBox(
                                 modifier =
                                     Modifier
@@ -535,7 +561,8 @@ fun HomeScreen(
 
                         OfflineErrorState(
                             onRetry = {
-                                hasAutoRetriedHome = false
+                                homeAutoRetryCount = 0
+                                isHomeAutoRetrying = false
                                 onRefresh.invoke()
                             },
                             onOpenDownloaded = {
