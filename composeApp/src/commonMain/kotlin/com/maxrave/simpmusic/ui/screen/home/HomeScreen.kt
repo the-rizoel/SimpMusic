@@ -97,6 +97,7 @@ import com.maxrave.logger.Logger
 import com.maxrave.simpmusic.extension.angledGradientBackground
 import com.maxrave.simpmusic.extension.isScrollingUp
 import com.maxrave.simpmusic.extension.rgbFactor
+import com.maxrave.simpmusic.ui.component.AnnouncementDialog
 import com.maxrave.simpmusic.ui.component.CenterLoadingBox
 import com.maxrave.simpmusic.ui.component.Chip
 import com.maxrave.simpmusic.ui.component.DropdownButton
@@ -125,6 +126,7 @@ import com.maxrave.simpmusic.ui.navigation.destination.login.LoginDestination
 import com.maxrave.simpmusic.ui.theme.md_theme_dark_background
 import com.maxrave.simpmusic.ui.theme.typo
 import com.maxrave.simpmusic.ui.theme.white
+import com.maxrave.simpmusic.utils.VersionManager
 import com.maxrave.simpmusic.viewModel.HomeViewModel
 import com.maxrave.simpmusic.viewModel.HomeViewModel.Companion.HOME_PARAMS_COMMUTE
 import com.maxrave.simpmusic.viewModel.HomeViewModel.Companion.HOME_PARAMS_ENERGIZE
@@ -248,6 +250,7 @@ fun HomeScreen(
 
     val openAppTime by sharedViewModel.openAppTime.collectAsStateWithLifecycle()
     val shareLyricsPermissions by sharedViewModel.shareSavedLyrics.collectAsStateWithLifecycle()
+    val activeAnnouncement by sharedViewModel.activeAnnouncement.collectAsStateWithLifecycle()
 
     var topHeaderColor by remember {
         mutableStateOf(md_theme_dark_background)
@@ -349,6 +352,10 @@ fun HomeScreen(
         isHomeAutoRetrying = false
     }
 
+    LaunchedEffect(Unit) {
+        sharedViewModel.checkAnnouncements()
+    }
+
     LaunchedEffect(loading, homeData.size, params) {
         if (!loading &&
             homeData.isEmpty() &&
@@ -421,7 +428,20 @@ fun HomeScreen(
 //        )
 //    }
 
-    if (showReviewDialog) {
+    activeAnnouncement?.let { announcement ->
+        AnnouncementDialog(
+            announcement = announcement,
+            currentAppVersion = VersionManager.getVersionName(),
+            onDismiss = {
+                sharedViewModel.dismissAnnouncement(announcement.id)
+            },
+            onActionClick = { action ->
+                sharedViewModel.onAnnouncementAction(action)
+            },
+        )
+    }
+
+    if (activeAnnouncement == null && showReviewDialog) {
         ReviewDialog(
             onDismissRequest = {
                 sharedViewModel.onDoneReview(
@@ -438,7 +458,7 @@ fun HomeScreen(
         )
     }
 
-    if (showBlogPromoDialog) {
+    if (activeAnnouncement == null && showBlogPromoDialog) {
         BlogPromoDialog(
             onDismissRequest = {
                 sharedViewModel.putString(BLOG_PROMO_KEY, "true")
@@ -451,7 +471,7 @@ fun HomeScreen(
         )
     }
 
-    if (showRequestShareLyricsPermissions) {
+    if (activeAnnouncement == null && showRequestShareLyricsPermissions) {
         ShareSavedLyricsDialog(
             onDismissRequest = {
                 showRequestShareLyricsPermissions = false
@@ -467,7 +487,7 @@ fun HomeScreen(
         )
     }
 
-    if (shouldShowLogInAlert) {
+    if (activeAnnouncement == null && shouldShowLogInAlert) {
         var doNotShowAgain by rememberSaveable {
             mutableStateOf(false)
         }
