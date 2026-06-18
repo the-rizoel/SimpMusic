@@ -64,6 +64,9 @@ import com.maxrave.simpmusic.Platform
 import com.maxrave.simpmusic.expect.getDownloadFolderPath
 import com.maxrave.simpmusic.expect.ui.toByteArray
 import com.maxrave.simpmusic.getPlatform
+import com.maxrave.simpmusic.data.announcement.Announcement
+import com.maxrave.simpmusic.data.announcement.AnnouncementAction
+import com.maxrave.simpmusic.data.announcement.AnnouncementRepository
 import com.maxrave.simpmusic.utils.VersionManager
 import com.maxrave.simpmusic.viewModel.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
@@ -115,6 +118,9 @@ class SharedViewModel(
     private val lyricsCanvasRepository: LyricsCanvasRepository,
     private val cacheRepository: CacheRepository,
 ) : BaseViewModel() {
+    private companion object {
+        const val ANNOUNCEMENT_DISMISSED_IDS_KEY = "dismissed_announcements"
+    }
     var isFirstLiked: Boolean = false
     var isFirstMiniplayer: Boolean = false
     var isFirstSuggestions: Boolean = false
@@ -122,6 +128,11 @@ class SharedViewModel(
 
     private val _isCheckingUpdate = MutableStateFlow(false)
     val isCheckingUpdate: StateFlow<Boolean> = _isCheckingUpdate
+
+    private val announcementRepository = AnnouncementRepository()
+    private val _activeAnnouncement = MutableStateFlow<Announcement?>(null)
+    val activeAnnouncement: StateFlow<Announcement?> = _activeAnnouncement.asStateFlow()
+    private var hasCheckedAnnouncements = false
 
     private var _liked: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val liked: SharedFlow<Boolean> = _liked.asSharedFlow()
@@ -544,6 +555,62 @@ class SharedViewModel(
         value: String,
     ) {
         runBlocking { dataStoreManager.putString(key, value) }
+    }
+
+    fun checkAnnouncements(force: Boolean = false) {
+        if (hasCheckedAnnouncements && !force) return
+        hasCheckedAnnouncements = true
+
+        viewModelScope.launch {
+            val dismissedIds =
+                dataStoreManager
+                    .getString(ANNOUNCEMENT_DISMISSED_IDS_KEY)
+                    .firstOrNull()
+                    ?.split(",")
+                    ?.map { it.trim() }
+                    ?.filter { it.isNotEmpty() }
+                    ?.toSet()
+                    ?: emptySet()
+
+            _activeAnnouncement.value =
+                announcementRepository.getActiveAnnouncement(
+                    currentAppVersion = VersionManager.getVersionName(),
+                    dismissedIds = dismissedIds,
+                )
+        }
+    }
+
+    fun dismissAnnouncement(id: String) {
+        viewModelScope.launch {
+            val dismissedIds =
+                dataStoreManager
+                    .getString(ANNOUNCEMENT_DISMISSED_IDS_KEY)
+                    .firstOrNull()
+                    ?.split(",")
+                    ?.map { it.trim() }
+                    ?.filter { it.isNotEmpty() }
+                    ?.toMutableSet()
+                    ?: mutableSetOf()
+
+            dismissedIds.add(id)
+            dataStoreManager.putString(ANNOUNCEMENT_DISMISSED_IDS_KEY, dismissedIds.joinToString(","))
+
+            if (_activeAnnouncement.value?.id == id) {
+                _activeAnnouncement.value = null
+            }
+        }
+    }
+
+    fun onAnnouncementAction(action: AnnouncementAction) {
+        val announcement = _activeAnnouncement.value ?: return
+        val isBlockingForceUpdate = announcement.isBlockingForceUpdate(VersionManager.getVersionName())
+        val shouldDismiss =
+            action.action == AnnouncementAction.ACTION_DISMISS ||
+                (action.dismissOnClick && !isBlockingForceUpdate)
+
+        if (shouldDismiss) {
+            dismissAnnouncement(announcement.id)
+        }
     }
 
     fun setSleepTimer(minutes: Int) {
