@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "enabled": true,
+  "announcements": [
+    {
+      "id": "launch-v1-0-0",
+      "enabled": true,
+      "type": "promo",
+      "display": "dialog",
+      "priority": 100,
+      "showOnce": true,
+      "dismissible": true,
+      "title": "WΛVVY Music is live",
+      "message": "Thanks for trying the first public release of WΛVVY Music. This version focuses on a clean, premium music experience with polished defaults, better sharing, and smoother startup reliability.",
+      "imageUrl": null,
+      "imageAspectRatio": "16:9",
+      "showFrom": "2026-06-18T00:00:00Z",
+      "showUntil": "2026-07-31T23:59:59Z",
+      "minAppVersion": "1.0.0",
+      "maxAppVersion": null,
+      "forceUpdate": {
+        "enabled": false,
+        "minRequiredVersion": "1.0.0",
+        "blockApp": false
+      },
+      "actions": [
+        {
+          "id": "producthunt",
+          "text": "Support on Product Hunt",
+          "url": "https://www.producthunt.com/products/wavvymusic",
+          "style": "primary",
+          "dismissOnClick": true,
+          "order": 0
+        },
+        {
+          "id": "release",
+          "text": "Download app",
+          "url": "https://wavvy.rizoel.in/download",
+          "style": "secondary",
+          "dismissOnClick": true,
+          "order": 1
+        }
+      ]
+    }
+  ]
+}
