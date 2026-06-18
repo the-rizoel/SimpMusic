@@ -1,13 +1,15 @@
 package com.maxrave.simpmusic.data.announcement
 
+import com.maxrave.domain.extension.now
 import com.maxrave.logger.Logger
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import kotlinx.serialization.json.Json
 
 class AnnouncementRepository(
@@ -38,7 +40,8 @@ class AnnouncementRepository(
                 if (!feed.enabled) {
                     null
                 } else {
-                    val now = Clock.System.now()
+                    val now = now().toInstant(TimeZone.currentSystemDefault())
+
                     feed.announcements
                         .asSequence()
                         .filter { it.enabled }
